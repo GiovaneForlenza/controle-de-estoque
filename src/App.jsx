@@ -4,10 +4,10 @@ import AddItemModal from "./components/AddItemModal";
 import EditItemModal from "./components/EditItemModal";
 import Header from "./components/Header";
 import ItemGrid from "./components/ItemGrid";
+import ScrollToTop from "./components/ScrollToTop";
 import Toast from "./components/Toast";
 import { useCategories } from "./hooks/useCategories";
 import { useItems } from "./hooks/useItems";
-import ScrollToTop from "./components/ScrollToTop";
 
 export default function App() {
   const {
@@ -154,6 +154,7 @@ export default function App() {
         onChangeOrdenacao={setOrdenacao}
       />
       <Toast toast={toast} />
+      teste asd
       <ScrollToTop />
       <main className="mx-auto max-w-7xl px-2 py-6 pb-18 sm:px-6 lg:px-8">
         {/* <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
