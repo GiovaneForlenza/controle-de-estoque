@@ -1,11 +1,12 @@
 import { Loader2, TriangleAlert } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import AddItemModal from "./components/AddItemModal";
 import EditItemModal from "./components/EditItemModal";
 import Header from "./components/Header";
 import ItemGrid from "./components/ItemGrid";
 import ScrollToTop from "./components/ScrollToTop";
 import Toast from "./components/Toast";
+import { gerarListaDeCompra } from "./hooks/gerarListaDeCompra";
 import { useCategories } from "./hooks/useCategories";
 import { useItems } from "./hooks/useItems";
 
@@ -35,6 +36,15 @@ export default function App() {
   const [modalAberto, setModalAberto] = useState(false);
   const [itemEmEdicao, setItemEmEdicao] = useState(null);
   const [toast, setToast] = useState(null);
+  const [itensPraComprar, setItensPraComprar] = useState([]);
+
+  useEffect(() => {
+    setItensPraComprar(itens.filter((item) => item.precisa_comprar));
+  }, [itens]);
+
+  function handleGerarListaDeCompra() {
+    gerarListaDeCompra(itensPraComprar);
+  }
 
   function mostrarToast(mensagem, tipo = "sucesso") {
     setToast({ mensagem, tipo });
@@ -154,17 +164,8 @@ export default function App() {
         onChangeOrdenacao={setOrdenacao}
       />
       <Toast toast={toast} />
-      teste asd
       <ScrollToTop />
       <main className="mx-auto max-w-7xl px-2 py-6 pb-18 sm:px-6 lg:px-8">
-        {/* <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <CategoryFilter
-            categorias={categorias}
-            categoriaAtiva={categoriaAtiva}
-            onSelecionar={setCategoriaAtiva}
-          />
-          <SortDropdown valor={ordenacao} onChange={setOrdenacao} />
-        </div> */}
         {erro && (
           <div className="border-brick/30 bg-brick/10 text-brick-dark mb-5 flex items-start gap-2 rounded-md border px-2 py-3 text-sm">
             <TriangleAlert
@@ -188,6 +189,9 @@ export default function App() {
           <ItemGrid
             itens={itensFiltrados}
             categoriaAtiva={categoriaAtiva}
+            itensPraComprar={itensPraComprar}
+            onGerarListaDeCompras={handleGerarListaDeCompra}
+            onMostrarToast={mostrarToast}
             onAlterarQuantidade={handleAlterarQuantidade}
             onAlterarComprar={handleAlterarComprar}
             onAlterarComprando={handleAlterarComprando}
