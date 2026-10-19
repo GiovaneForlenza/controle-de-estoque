@@ -7,6 +7,9 @@ const ABAS_COM_BOTAO = ["Todos", "Precisa comprar"];
 export default function ItemGrid({
   itens,
   categoriaAtiva,
+  itensPraComprar,
+  onGerarListaDeCompras,
+  onMostrarToast,
   onAlterarQuantidade,
   onAlterarComprar,
   onAlterarComprando,
@@ -45,6 +48,19 @@ export default function ItemGrid({
 
   return (
     <div className="z-0 flex flex-col gap-4">
+      {itensPraComprar.length != 0 && (
+        <div className="w-full">
+          <button
+            className="border-forest bg-forest text-paper hover:bg-forest-dark flex w-full items-center justify-center gap-2 rounded-md border px-3 py-2 text-sm font-medium transition sm:w-fit"
+            onClick={() => {
+              onGerarListaDeCompras();
+              onMostrarToast("Lista de compra copiado");
+            }}
+          >
+            Gerar lista de compra
+          </button>
+        </div>
+      )}
       {mostrarBotaoFinalizar && (
         <button
           type="button"
